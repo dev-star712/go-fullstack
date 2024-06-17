@@ -14,7 +14,7 @@ There are a few tools that you need to install to run the project.
 So make sure you have the following tools installed on your machine.
 
 - [Templ (for the UI layer)](https://templ.guide/quick-start/installation)
-- [Tailwindcss CLI (CSS styling library)](https://tailwindcss.com/docs/installation)
+- [Tailwindcss CLI (CSS styling library)](https://tailwindcss.com/blog/standalone-cli)
 - [Migrate (for DB migrations)](https://github.com/golang-migrate/migrate/tree/v4.17.0/cmd/migrate)
 - [Air (for live reloading)](https://github.com/cosmtrek/air)
 

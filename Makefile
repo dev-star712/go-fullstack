@@ -1,5 +1,5 @@
 build:
-	tailwindcss -i public/css/styles.css -o public/styles.css
+	./tailwindcss -i views/css/styles.css -o public/styles.css
 	@templ generate view
 	@go build -o bin/fullstackgo main.go 
 
@@ -10,7 +10,7 @@ run: build
 	@./bin/fullstackgo
 
 tailwind:
-	@tailwindcss -i views/css/styles.css -o public/styles.css --watch
+	@./tailwindcss -i views/css/styles.css -o public/styles.css --watch
 
 templ:
 	@templ generate -watch -proxy=http://localhost:8080
