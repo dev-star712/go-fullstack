@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
-
+        "errors"
 	"github.com/gorilla/mux"
 	"github.com/sikozonpc/fullstackgo/components"
+	"github.com/sikozonpc/fullstackgo/store"
 	"github.com/sikozonpc/fullstackgo/types"
 	"github.com/sikozonpc/fullstackgo/views"
 )
@@ -15,7 +15,7 @@ func (h *Handler) HandleListCars(w http.ResponseWriter, r *http.Request) {
 
 	cars, err := h.store.GetCars()
 	if err != nil {
-		log.Println(err)
+        w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -33,7 +33,9 @@ func (h *Handler) HandleAddCar(w http.ResponseWriter, r *http.Request) {
 
 	newCar, err := h.store.CreateCar(car)
 	if err != nil {
-		log.Println(err)
+		
+        w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
 
@@ -45,7 +47,7 @@ func (h *Handler) HandleSearchCar(w http.ResponseWriter, r *http.Request) {
 
 	cars, err := h.store.FindCarsByNameMakeOrBrand(text)
 	if err != nil {
-		log.Println(err)
+        w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
@@ -58,7 +60,10 @@ func (h *Handler) HandleDeleteCar(w http.ResponseWriter, r *http.Request) {
 
 	err := h.store.DeleteCar(id)
 	if err != nil {
-		log.Println(err)
+        if errors.Is(err, store.ErrorNotFound){
+            w.WriteHeader(http.StatusNotFound)
+        }
+        w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 

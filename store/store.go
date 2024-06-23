@@ -2,9 +2,12 @@ package store
 
 import (
 	"database/sql"
+	"errors"
 
 	"github.com/sikozonpc/fullstackgo/types"
 )
+
+var ErrorNotFound = errors.New("Record Not Found")
 
 type Storage struct {
 	db *sql.DB
@@ -24,7 +27,10 @@ func NewStore(db *sql.DB) *Storage {
 }
 
 func (s *Storage) DeleteCar(id string) error {
-	_, err := s.db.Exec("DELETE FROM cars WHERE id = ?", id)
+	result, err := s.db.Exec("DELETE FROM cars WHERE id = ?", id)
+    if rowsAffected, _ := result.RowsAffected(); rowsAffected == 0{
+        return ErrorNotFound
+    }
 	return err
 }
 
